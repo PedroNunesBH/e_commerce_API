@@ -8,3 +8,7 @@ class ListProductsView(generics.ListAPIView):  # View para listar objetos do mod
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
     serializer_class = ProductSerializer
 
+
+class CreateProductsView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
