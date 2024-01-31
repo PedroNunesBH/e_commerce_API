@@ -9,3 +9,6 @@ class Product(models.Model):
     model = models.CharField(max_length=50)
     color = models.CharField(max_length=50)
     warrant_period = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
