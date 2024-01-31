@@ -6,9 +6,13 @@ from .serializers import ProductSerializer
 
 class ListProductsView(generics.ListAPIView):  # View para listar objetos do model
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
-    serializer_class = ProductSerializer
+    serializer_class = ProductSerializer  # classe do serializer
 
 
 class CreateProductsView(generics.CreateAPIView):
-    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class DetailUpdateAndDestroyProductsView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
     serializer_class = ProductSerializer
