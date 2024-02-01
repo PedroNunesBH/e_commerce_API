@@ -19,7 +19,7 @@ from django.urls import path
 from products.views import ListProductsView, CreateProductsView, DetailUpdateAndDestroyProductsView
 from clients.views import ListClientsView, CreateClientsView, DetailUpdateAndDestroyClientsView
 from reviews.views import ListProductReviewView, CreateProductReviewView, DetailUpdateAndDestroyProductReviewView
-from orders.views import ListOrdersView, CreateOrdersView, DetailUpdateAndDestroyOrdersView
+from orders.views import ListOrdersView, CreateOrdersView, DetailUpdateAndDestroyOrdersView, TotalOrderBilling
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,4 +39,5 @@ urlpatterns = [
     path('orders/', ListOrdersView.as_view(), name="orders_list"),
     path('create_order/', CreateOrdersView.as_view(), name="orders_create"),
     path('order/<int:pk>', DetailUpdateAndDestroyOrdersView.as_view(), name="orders_pk"),
+    path('total_billing/', TotalOrderBilling.as_view(), name="total_billing")  # Total de faturamento de pedidos
 ]
