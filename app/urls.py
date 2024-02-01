@@ -19,6 +19,8 @@ from django.urls import path
 from products.views import ListProductsView, CreateProductsView, DetailUpdateAndDestroyProductsView
 from clients.views import ListClientsView, CreateClientsView, DetailUpdateAndDestroyClientsView
 from reviews.views import ListProductReviewView, CreateProductReviewView, DetailUpdateAndDestroyProductReviewView
+from orders.views import ListOrdersView, CreateOrdersView, DetailUpdateAndDestroyOrdersView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -33,4 +35,8 @@ urlpatterns = [
     path('reviews/', ListProductReviewView.as_view(), name="reviews_list"),
     path('create_review/', CreateProductReviewView.as_view(), name="reviews_create"),
     path('review/<int:pk>', DetailUpdateAndDestroyProductReviewView.as_view(), name="review_pk"),
+
+    path('orders/', ListOrdersView.as_view(), name="orders_list"),
+    path('create_order/', CreateOrdersView.as_view(), name="orders_create"),
+    path('order/<int:pk>', DetailUpdateAndDestroyOrdersView.as_view(), name="orders_pk"),
 ]
