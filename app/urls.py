@@ -20,7 +20,8 @@ from products.views import ListProductsView, CreateProductsView, DetailUpdateAnd
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('products/', ListProductsView.as_view(), name='products_list'),
-    path('create_product/', CreateProductsView.as_view(), name='create_products'),
+    path('create_product/', CreateProductsView.as_view(), name='products_create'),
     path('product/<int:pk>', DetailUpdateAndDestroyProductsView.as_view(), name='product_pk'),
 ]
