@@ -13,17 +13,16 @@ class CreatePaymentMethodsView(generics.CreateAPIView):
     serializer_class = PaymentMethodSerializer
 
 
-class DetailsPaymentMethodsView(views.APIView):
+class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada metodo de pagamento
     def get(self, request):
         queryset = Order.objects.all()
-        data = {"Pix": 0, "Dinheiro": 0, "Boleto": 0, "Cartão de Crédito": 0}
+        data = {"Pix": 0, "Dinheiro": 0, "Boleto": 0,"Cartão de Crédito": 0}
         for order in queryset:
-            method_name = order.payment_method.method_name
-            data[method_name] += order.total_price
+            data[order.payment_method.method_name] += order.total_price
         return JsonResponse(data)
 
 
-class DetailPaymentMethodView(views.APIView):  # View que retorna detalhes de metodo de pagamento
+class DetailPaymentMethodView(views.APIView):  # View que retorna detalhes do metodo de pagamento
     def get(self, request, pk):
         method = get_object_or_404(PaymentMethod, id=pk)
         queryset = Order.objects.filter(payment_method=method)  # Filtra os pedidos do metodo de pagamento
