@@ -10,4 +10,4 @@ class ProductReview(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.note
+        return f"Usuário : {self.user.username} - Avaliação de {self.product.name}"

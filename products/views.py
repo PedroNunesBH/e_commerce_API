@@ -1,5 +1,9 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from rest_framework import views
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from reviews.models import ProductReview
 from .models import Product
 from .serializers import ProductSerializer
 
@@ -16,3 +20,12 @@ class CreateProductsView(generics.CreateAPIView):
 class DetailUpdateAndDestroyProductsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
     serializer_class = ProductSerializer
+
+
+class ProductReviews(views.APIView):  # Busca todas as avaliacoes de um produto especifico
+    def get(self, request, pk):
+        product = get_object_or_404(Product, id=pk)  # Captura o produto atraves da pk
+        reviews = ProductReview.objects.filter(product=product)  # Busca todas reviews do produto especifico
+        data_reviews = [{'id': review.id, 'description': review.description, 'rating': review.note,
+                         "autor": review.user.username} for review in reviews]
+        return JsonResponse(data_reviews, safe=False)
