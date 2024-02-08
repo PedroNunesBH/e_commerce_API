@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import views
-from orders.models import Order
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
-from rest_framework import generics
+from rest_framework import views, generics
+from orders.models import Order
 from .serializers import PaymentMethodSerializer
 from .models import PaymentMethod
 

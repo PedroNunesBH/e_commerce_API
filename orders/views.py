@@ -2,11 +2,8 @@ from rest_framework import generics
 from rest_framework import views
 from django.http import JsonResponse
 from django.db.models import Sum
-from django.shortcuts import get_object_or_404
 from .models import Order
 from .serializers import OrderSerializer
-from products.views import Product
-from products.serializers import ProductSerializer
 
 
 class ListOrdersView(generics.ListAPIView):

@@ -1,8 +1,6 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import views
-from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from rest_framework import views, generics
 from reviews.models import ProductReview
 from .models import Product
 from .serializers import ProductSerializer
