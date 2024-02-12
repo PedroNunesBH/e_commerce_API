@@ -10,11 +10,9 @@ class Order(models.Model):
                                related_name="client_order")  # Cliente que efetuou o pedido
     products = models.ManyToManyField(Product, related_name='products_order')  # Produtos do pedido
     date = models.DateTimeField(auto_now_add=True)  # Preenchimento da data e hora automático
-    total_price = models.FloatField()
+    total_price = models.FloatField(default=0.0)
     address_to_delivery = models.TextField()
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT)
-
+        
     def __str__(self):
         return self.pk  # Retorna o código da venda(id/pk)
-
-
