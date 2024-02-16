@@ -1,6 +1,8 @@
 from rest_framework import generics
 from rest_framework import views
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework import status
 from django.http import JsonResponse
 from django.db.models import Sum
 from .models import Order
@@ -17,6 +19,27 @@ class CreateOrdersView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
 
+    def post(self, request, *args, **kwargs):
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():  # Verifica se o serializer é valido
+            products_list = serializer.validated_data.get('products')  # Captura o valor(es) de products do serializer
+            error_warnings = []  # Cria uma lista vazia para armazenar msgs de erros caso haja
+            for product in products_list:
+                if product.units >= 1:  # Verifica se ha mais de uma unidade no estoque do produto
+                    pass
+                else:
+                    error_warnings.append(f"Não há estoque suficiente para o produto {product.name}. ID : {product.id}")
+            if error_warnings:
+                return Response({"errors": error_warnings},
+                                status=status.HTTP_400_BAD_REQUEST)  # Retorna as mensagens de erros e o codigo 400
+            for product in products_list:
+                product.units -= 1  # Diminui do estoque de cada produto 1 unidade
+                product.save()  # Salva no model de products o novo valor de units
+            serializer.save()  # Cria o pedido Order
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)  # Retorna o json e o codigo 201 de criado com sucesso
+        return super().post(request)
+
 
 class DetailUpdateAndDestroyOrdersView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
@@ -29,5 +52,5 @@ class TotalOrderBilling(views.APIView):  # View responsavel por calcular o fatur
 
     def get(self, request):
         total_billing = Order.objects.aggregate(
-                        Sum('total_price'))['total_price__sum']  # Soma todos os registros de total_price do model Order
+            Sum('total_price'))['total_price__sum']  # Soma todos os registros de total_price do model Order
         return JsonResponse({"total_billing": total_billing})
