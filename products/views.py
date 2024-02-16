@@ -19,7 +19,7 @@ class CreateProductsView(generics.CreateAPIView):
 
 class DetailUpdateAndDestroyProductsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
-    permission_classes = (IsAuthenticatedOrReadOnly,)  # Apenas autenticados podem metodo POST e qualquer um GET
+    permission_classes = (IsAuthenticatedOrReadOnly,)  # Apenas autenticados podem metodo além do GET
     serializer_class = ProductSerializer
 
 
