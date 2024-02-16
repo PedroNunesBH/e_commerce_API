@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from rest_framework import views, generics
+from rest_framework.permissions import IsAdminUser
 from orders.models import Order
 from .serializers import PaymentMethodSerializer
 from .models import PaymentMethod
@@ -9,9 +10,12 @@ from .models import PaymentMethod
 
 class CreatePaymentMethodsView(generics.CreateAPIView):
     serializer_class = PaymentMethodSerializer
+    permission_classes = (IsAdminUser,)  # Apenas para usuarios administradores
 
 
 class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada metodo de pagamento
+    permission_classes = (IsAdminUser,)
+
     def get(self, request):
         queryset = Order.objects.all()
         data = {"Pix": 0, "Dinheiro": 0, "Boleto": 0,"Cartão de Crédito": 0}
@@ -21,6 +25,8 @@ class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada m
 
 
 class DetailPaymentMethodView(views.APIView):  # View que retorna detalhes do metodo de pagamento
+    permission_classes = (IsAdminUser,)
+
     def get(self, request, pk):
         method = get_object_or_404(PaymentMethod, id=pk)
         queryset = Order.objects.filter(payment_method=method)  # Filtra os pedidos do metodo de pagamento

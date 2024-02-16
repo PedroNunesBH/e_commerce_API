@@ -1,6 +1,7 @@
-from rest_framework import views, generics
-from reviews.models import ProductReview
 from django.shortcuts import get_object_or_404
+from rest_framework import views, generics
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from reviews.models import ProductReview
 from .models import Product
 from .serializers import ProductSerializer
 from reviews.serializers import ProductReviewSerializer
@@ -13,10 +14,12 @@ class ListProductsView(generics.ListAPIView):  # View para listar objetos do mod
 
 class CreateProductsView(generics.CreateAPIView):
     serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class DetailUpdateAndDestroyProductsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
+    permission_classes = (IsAuthenticatedOrReadOnly,)  # Apenas autenticados podem metodo POST e qualquer um GET
     serializer_class = ProductSerializer
 
 
