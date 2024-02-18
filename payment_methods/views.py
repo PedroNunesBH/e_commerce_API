@@ -18,9 +18,12 @@ class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada m
 
     def get(self, request):
         queryset = Order.objects.all()
-        data = {"Pix": 0, "Dinheiro": 0, "Boleto": 0,"Cartão de Crédito": 0}
+        data = {"Pix": 0, "Dinheiro": 0, "Boleto Bancário": 0, "Cartão de Crédito": 0}
         for order in queryset:
-            data[order.payment_method.method_name] += order.total_price
+            data[order.payment_method.method_name] += order.total_price  # Adiciona o valor total de cada pedido
+        for key, total in data.items():
+            data[key] = round(total, 2)  # Arredonda o total de cada metodo de pagamento para duas casas
+        print(data)
         return JsonResponse(data)
 
 
