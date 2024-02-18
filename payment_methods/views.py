@@ -2,15 +2,26 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from rest_framework import views, generics
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from orders.models import Order
 from .serializers import PaymentMethodSerializer
 from .models import PaymentMethod
 
 
+class ListPaymentMethodsView(generics.ListAPIView):
+    queryset = PaymentMethod.objects.all()
+    serializer_class = PaymentMethodSerializer
+
+
 class CreatePaymentMethodsView(generics.CreateAPIView):
     serializer_class = PaymentMethodSerializer
     permission_classes = (IsAdminUser,)  # Apenas para usuarios administradores
+
+
+class DetailUpdateAndDestroyPaymentMethodsView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PaymentMethod.objects.all()
+    serializer_class = PaymentMethodSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )  # Usuarios nao autenticados podem ver o get(detail) apenas
 
 
 class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada metodo de pagamento
