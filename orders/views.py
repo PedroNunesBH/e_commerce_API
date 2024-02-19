@@ -23,18 +23,19 @@ class CreateOrdersView(generics.CreateAPIView):
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():  # Verifica se o serializer é valido
             products_list = serializer.validated_data.get('products')  # Captura o valor(es) de products do serializer
+            product_quantity_list = serializer.validated_data.get('each_product_quantity')
             error_warnings = []  # Cria uma lista vazia para armazenar msgs de erros caso haja
             for product in products_list:
-                if product.units >= 1:  # Verifica se ha mais de uma unidade no estoque do produto
-                    pass
-                else:
+                quantidade_do_produto = product_quantity_list[f"{product.pk}"]  # Captura a qtd do produto atraves do id
+                if product.units < quantidade_do_produto:  # Verifica se tem a quantidade no estoque
                     error_warnings.append(f"Não há estoque suficiente para o produto {product.name}. ID : {product.id}")
             if error_warnings:
                 return Response({"errors": error_warnings},
                                 status=status.HTTP_400_BAD_REQUEST)  # Retorna as mensagens de erros e o codigo 400
             for product in products_list:
-                product.units -= 1  # Diminui do estoque de cada produto 1 unidade
-                product.save()  # Salva no model de products o novo valor de units
+                quantidade_do_produto = product_quantity_list[f"{product.pk}"]  # Acessa novamente a qtd do produto
+                product.units -= quantidade_do_produto  # Diminui a quantidade em estoque
+                product.save()  # Salva no bd
             serializer.save()  # Cria o pedido Order
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)  # Retorna o json e o codigo 201 de criado com sucesso

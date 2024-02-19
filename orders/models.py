@@ -13,6 +13,7 @@ class Order(models.Model):
     total_price = models.FloatField(default=0.0)
     address_to_delivery = models.TextField()
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.PROTECT)
+    each_product_quantity = models.JSONField()  # Recebe uma lista de inteiros com a quantidade de cada produto
         
     def __str__(self):
         return self.pk  # Retorna o código da venda(id/pk)
