@@ -33,6 +33,7 @@ as instruções da documentação.
 # Documentação Completa da API 
 
 Para acessar a documentação completa da API feita através da ferramenta PostMan basta acessar o link abaixo :
+
 https://documenter.getpostman.com/view/32598004/2sA2r9Uha5#a9aba167-2d2f-4496-8740-bf3823b5567d
 
 ## Pré-requisitos
