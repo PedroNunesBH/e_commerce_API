@@ -24,7 +24,7 @@ class DetailUpdateAndDestroyPaymentMethodsView(generics.RetrieveUpdateDestroyAPI
     permission_classes = (IsAuthenticatedOrReadOnly, )  # Usuarios nao autenticados podem ver o get(detail) apenas
 
 
-class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada metodo de pagamento
+class BillingStaticsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada metodo de pagamento
     permission_classes = (IsAdminUser,)
 
     def get(self, request):
@@ -38,7 +38,7 @@ class DetailsPaymentMethodsView(views.APIView):  # Exibe o faturamento de cada m
         return JsonResponse(data)
 
 
-class DetailPaymentMethodView(views.APIView):  # View que retorna detalhes do metodo de pagamento
+class GeneralPaymentMethodStatisticsView(views.APIView):  # View que retorna detalhes do metodo de pagamento especificado na url
     permission_classes = (IsAdminUser,)
 
     def get(self, request, pk):
@@ -47,4 +47,6 @@ class DetailPaymentMethodView(views.APIView):  # View que retorna detalhes do me
         order_total_numbers = queryset.count()
         total_billing = queryset.aggregate(Sum('total_price'))['total_price__sum']  # Soma dos campos total_price
         data = {"name": method.method_name, "Total_orders": order_total_numbers, "Total billing": total_billing}
+        for chave, valor in data.items():
+            data["Total billing"] = f"{total_billing:.2f}"
         return JsonResponse(data)
