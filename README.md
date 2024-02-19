@@ -5,10 +5,15 @@ Bem-Vindo a API de E-commerce ! Essa é uma API desenvolvida em Django e DRF(Dja
 # Funcionalidades 
 
 1 - Autenticação através de JWT Token.
+
 2 - CRUD completo para registro dos clientes e suas respectivas informações.
+
 3 - CRUD completo para o registro dos pedidos do comércio.
+
 4 - CRUD completo para registro de métodos de pagamentos.
+
 5 - CRUD completo para os produtos.
+
 6 - CRUD completo para avaliações dos produtos.
 
 Além disso a API permite acesso a algumas estatísticas como:
