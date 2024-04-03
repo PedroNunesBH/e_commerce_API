@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import ListClientsView, CreateClientsView, DetailUpdateAndDestroyClientsView
+from .views import ListAndCreateClientsView, DetailUpdateAndDestroyClientsView
 
 urlpatterns = [
-    path('clients/', ListClientsView.as_view(), name='clients_list'),
-    path('create_client/', CreateClientsView.as_view(), name='clients_create'),
+    path('clients/', ListAndCreateClientsView.as_view(), name='list_and_create_clients'),
     path('client/<int:pk>', DetailUpdateAndDestroyClientsView.as_view(), name='client_pk'),
 ]

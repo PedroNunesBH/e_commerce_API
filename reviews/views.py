@@ -4,14 +4,10 @@ from .models import ProductReview
 from .serializers import ProductReviewSerializer
 
 
-class ListProductReviewView(generics.ListAPIView):
+class ListAndCreateReviewsView(generics.ListCreateAPIView):
     queryset = ProductReview.objects.all()
     serializer_class = ProductReviewSerializer
-
-
-class CreateProductReviewView(generics.CreateAPIView):
-    serializer_class = ProductReviewSerializer
-    permission_classes = (IsAuthenticated,)  # Apenas autenticados podem criar uma review
+    permission_classes = (IsAuthenticatedOrReadOnly, )  # Apenas autenticados podem criar(metodo POST) uma review
 
 
 class DetailUpdateAndDestroyProductReviewView(generics.RetrieveUpdateDestroyAPIView):

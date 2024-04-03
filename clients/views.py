@@ -4,15 +4,10 @@ from .models import Client
 from .serializers import ClientSerializer
 
 
-class ListClientsView(generics.ListAPIView):
+class ListAndCreateClientsView(generics.ListCreateAPIView):
     queryset = Client.objects.all()
     permission_classes = (IsAuthenticated,)  # Restringe a view apenas para usuarios autenticados
     serializer_class = ClientSerializer
-
-
-class CreateClientsView(generics.CreateAPIView):
-    serializer_class = ClientSerializer
-    permission_classes = (IsAuthenticated,)
 
 
 class DetailUpdateAndDestroyClientsView(generics.RetrieveUpdateDestroyAPIView):

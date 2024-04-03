@@ -7,14 +7,10 @@ from .serializers import ProductSerializer
 from reviews.serializers import ProductReviewSerializer
 
 
-class ListProductsView(generics.ListAPIView):  # View para listar objetos do model
+class ListAndCreateProductsView(generics.ListCreateAPIView):
     queryset = Product.objects.all()  # Define queryset como todos os objetos do model Product
     serializer_class = ProductSerializer  # classe do serializer
-
-
-class CreateProductsView(generics.CreateAPIView):
-    serializer_class = ProductSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
 class DetailUpdateAndDestroyProductsView(generics.RetrieveUpdateDestroyAPIView):
