@@ -62,3 +62,44 @@ Para configurar o banco de dados do projeto são necessários dois comandos na s
 Para iniciar o servidor de desenvolvimento do Django em sua máquina utilize o seguinte comando:
 
 **python manage.py runserver**
+
+## Docker
+
+O projeto contém os arquivos `Dockerfile` e `docker-compose.yml`  para a conteinerização da aplicação. Neste projeto, utilizaremos o Docker Compose para rodar a aplicação containerizada e conectá-la a um banco de dados PostgreSQL, também em um container.
+
+**Passos para realizar o processo de conteinerização:**
+
+1. **Instalar o Docker:**
+   - Certifique-se de ter o Docker instalado e funcionando corretamente em sua máquina. Siga as instruções oficiais para [instalar o Docker](https://docs.docker.com/get-docker/).
+
+2. **Configurar o Banco de Dados no Django:**
+   - No arquivo `settings.py` da aplicação Django, substitua a configuração padrão da variável `DATABASES` pela seguinte configuração:
+     
+
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT'),
+        }
+    }
+    ```
+
+3. **Subir os Containers:**
+   - Abra o terminal e, no diretório da aplicação, execute o seguinte comando:
+
+ ```bash
+docker compose -p nomedoprojeto up
+```
+
+## Observações Adicionais:
+
+Comando para parar e remover os containers:
+
+```bash
+docker compose down
+```
